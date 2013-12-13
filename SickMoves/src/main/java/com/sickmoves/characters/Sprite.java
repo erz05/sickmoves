@@ -15,8 +15,8 @@ public class Sprite {
     // direction = 0 up, 1 left, 2 down, 3 right,
     // animation = 3 back, 1 left, 0 front, 2 right
     int[] DIRECTION_TO_ANIMATION_MAP = { 3, 1, 0, 2 };
-    private static final int BMP_ROWS = 4;
-    private static final int BMP_COLUMNS = 3;
+    private static final int BMP_ROWS = 5;
+    private static final int BMP_COLUMNS = 2;
     private static final int MAX_SPEED = 5;
     private int x = 0;
     private int y = 0;
@@ -27,6 +27,8 @@ public class Sprite {
     private int currentFrame = 0;
     private int width;
     private int height;
+
+    private int row = 0;
 
     public Sprite(Game game, Bitmap bmp) {
         this.width = bmp.getWidth() / BMP_COLUMNS;
@@ -56,7 +58,7 @@ public class Sprite {
     public void onDraw(Canvas canvas) {
         update();
         int srcX = currentFrame * width;
-        int srcY = getAnimationRow() * height;
+        int srcY = row * height;//getAnimationRow() * height;
         Rect src = new Rect(srcX, srcY, srcX + width, srcY + height);
         Rect dst = new Rect(x, y, x + width, y + height);
         canvas.drawBitmap(bmp, src, dst, null);
@@ -66,5 +68,9 @@ public class Sprite {
         double dirDouble = (Math.atan2(xSpeed, ySpeed) / (Math.PI / 2) + 2);
         int direction = (int) Math.round(dirDouble) % BMP_ROWS;
         return DIRECTION_TO_ANIMATION_MAP[direction];
+    }
+
+    public void setRow(int i){
+        row = i;
     }
 }

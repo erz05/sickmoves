@@ -3,6 +3,9 @@ package com.sickmoves.activities;
 import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.sickmoves.R;
@@ -25,9 +28,45 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
 
         LinearLayout gameLayout = (LinearLayout) findViewById(R.id.gameLayout);
-        Game game = new Game(this);
+        final Game game = new Game(this);
         gameLayout.addView(game);
 
+        ImageView red = (ImageView) findViewById(R.id.red);
+        ImageView blue = (ImageView) findViewById(R.id.blue);
+        ImageView green = (ImageView) findViewById(R.id.green);
+        ImageView yellow = (ImageView) findViewById(R.id.yellow);
+
+        red.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.v("DELETE_THIS", "red Clicked");
+                game.changeRobot(1);
+            }
+        });
+
+        blue.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.v("DELETE_THIS", "blue Clicked");
+                game.changeRobot(2);
+            }
+        });
+
+        green.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.v("DELETE_THIS", "green Clicked");
+                game.changeRobot(3);
+            }
+        });
+
+        yellow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.v("DELETE_THIS", "yellow Clicked");
+                game.changeRobot(4);
+            }
+        });
 
         SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
     }

@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
@@ -23,6 +24,7 @@ public class Game extends SurfaceView{
     private SurfaceHolder holder;
     private GameLoopThread gameLoopThread;
     private List<Sprite> sprites = new ArrayList<Sprite>();
+    private Sprite robot;
 
     public Game(Context context) {
         super(context);
@@ -46,7 +48,8 @@ public class Game extends SurfaceView{
             @Override
             public void surfaceCreated(SurfaceHolder holder) {
                 if(!gameLoopThread.isRunning()){
-                    createSprites();
+                    robot = createSprite(R.drawable.sick);
+                    //createSprites();
                     gameLoopThread.setRunning(true);
                     gameLoopThread.start();
                 }
@@ -60,16 +63,16 @@ public class Game extends SurfaceView{
     }
 
     private void createSprites() {
-        sprites.add(createSprite(R.drawable.ic_launcher));
-        sprites.add(createSprite(R.drawable.ic_launcher));
-        sprites.add(createSprite(R.drawable.ic_launcher));
-        sprites.add(createSprite(R.drawable.ic_launcher));
-        sprites.add(createSprite(R.drawable.ic_launcher));
-        sprites.add(createSprite(R.drawable.ic_launcher));
-        sprites.add(createSprite(R.drawable.ic_launcher));
-        sprites.add(createSprite(R.drawable.ic_launcher));
-        sprites.add(createSprite(R.drawable.ic_launcher));
-        sprites.add(createSprite(R.drawable.ic_launcher));
+        sprites.add(createSprite(R.drawable.sick));
+        //sprites.add(createSprite(R.drawable.ic_launcher));
+        //sprites.add(createSprite(R.drawable.ic_launcher));
+        //sprites.add(createSprite(R.drawable.ic_launcher));
+        //sprites.add(createSprite(R.drawable.ic_launcher));
+        //sprites.add(createSprite(R.drawable.ic_launcher));
+        //sprites.add(createSprite(R.drawable.ic_launcher));
+        //sprites.add(createSprite(R.drawable.ic_launcher));
+        //sprites.add(createSprite(R.drawable.ic_launcher));
+        //sprites.add(createSprite(R.drawable.ic_launcher));
     }
 
     private Sprite createSprite(int resouce) {
@@ -81,9 +84,15 @@ public class Game extends SurfaceView{
     public void onDraw(Canvas canvas) {
         if(canvas != null){
             canvas.drawColor(Color.BLACK);
-            for (Sprite sprite : sprites) {
+            /*for (Sprite sprite : sprites) {
                 sprite.onDraw(canvas);
-            }
+            }*/
+            robot.onDraw(canvas);
         }
+    }
+
+    public void changeRobot(int i){
+        Log.v("DELETE_THIS", "changeRobot "+i);
+        robot.setRow(i);
     }
 }
