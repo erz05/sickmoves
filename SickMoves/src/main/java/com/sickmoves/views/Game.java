@@ -24,7 +24,6 @@ public class Game extends SurfaceView{
 
     private SurfaceHolder holder;
     private GameLoopThread gameLoopThread;
-    private List<Sprite> sprites = new ArrayList<Sprite>();
     private Sprite robot;
     private Monsters monsters;
 
@@ -49,14 +48,16 @@ public class Game extends SurfaceView{
 
             @Override
             public void surfaceCreated(SurfaceHolder holder) {
-                if(!gameLoopThread.isRunning()){
+                robot = createSprite(R.drawable.sick);
+                Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.monstars);
+                monsters = new Monsters(getWidth(), getHeight(), bmp);
+                /*if(!gameLoopThread.isRunning()){
                     robot = createSprite(R.drawable.sick);
                     Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.monstars);
                     monsters = new Monsters(getWidth(), getHeight(), bmp);
-                    //createSprites();
                     gameLoopThread.setRunning(true);
                     gameLoopThread.start();
-                }
+                }*/
             }
 
             @Override
@@ -64,19 +65,6 @@ public class Game extends SurfaceView{
                                        int width, int height) {
             }
         });
-    }
-
-    private void createSprites() {
-        sprites.add(createSprite(R.drawable.sick));
-        //sprites.add(createSprite(R.drawable.ic_launcher));
-        //sprites.add(createSprite(R.drawable.ic_launcher));
-        //sprites.add(createSprite(R.drawable.ic_launcher));
-        //sprites.add(createSprite(R.drawable.ic_launcher));
-        //sprites.add(createSprite(R.drawable.ic_launcher));
-        //sprites.add(createSprite(R.drawable.ic_launcher));
-        //sprites.add(createSprite(R.drawable.ic_launcher));
-        //sprites.add(createSprite(R.drawable.ic_launcher));
-        //sprites.add(createSprite(R.drawable.ic_launcher));
     }
 
     private Sprite createSprite(int resouce) {
@@ -88,16 +76,22 @@ public class Game extends SurfaceView{
     public void onDraw(Canvas canvas) {
         if(canvas != null){
             canvas.drawColor(Color.BLACK);
-            /*for (Sprite sprite : sprites) {
-                sprite.onDraw(canvas);
-            }*/
             robot.onDraw(canvas);
             monsters.onDraw(canvas);
         }
     }
 
     public void changeRobot(int i){
-        Log.v("DELETE_THIS", "changeRobot "+i);
         robot.setRow(i);
+    }
+
+    public void start(){
+        if(gameLoopThread != null && !gameLoopThread.isRunning()){
+            //robot = createSprite(R.drawable.sick);
+            //Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.monstars);
+            //monsters = new Monsters(getWidth(), getHeight(), bmp);
+            gameLoopThread.setRunning(true);
+            gameLoopThread.start();
+        }
     }
 }
