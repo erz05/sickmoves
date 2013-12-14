@@ -19,6 +19,7 @@ public class Monsters {
     private int width;
     private int height;
     private int canvasW;
+    private boolean[] alive;
 
     private int rMon1 = 0, rMon2 = 1, rMon3 = 2, rMon4 = 3;
 
@@ -31,9 +32,11 @@ public class Monsters {
         posY = h/2 - height/2;
         int x = w;
         posX = new int[4];
+        alive = new boolean[4];
         for(int i=0; i<4; i++){
             posX[i] = x;
             x += 150;
+            alive[i] = true;
         }
     }
 
@@ -59,24 +62,47 @@ public class Monsters {
     public void onDraw(Canvas canvas) {
         update();
         int srcX = currentFrame * width;
-        int srcY = rMon1 * height;
-        Rect src = new Rect(srcX, srcY, srcX + width, srcY + height);
-        Rect dst = new Rect(posX[0], posY, posX[0] + width, posY + height);
-        canvas.drawBitmap(bmp, src, dst, null);
+        int srcY;
+        Rect src;
+        Rect dst;
+        if(alive[0]){
+            srcY = rMon1 * height;
+            src = new Rect(srcX, srcY, srcX + width, srcY + height);
+            dst = new Rect(posX[0], posY, posX[0] + width, posY + height);
+            canvas.drawBitmap(bmp, src, dst, null);
+        }
 
-        srcY = rMon2 * height;
-        src = new Rect(srcX, srcY, srcX + width, srcY + height);
-        dst = new Rect(posX[1], posY, posX[1] + width, posY + height);
-        canvas.drawBitmap(bmp, src, dst, null);
+        if(alive[1]){
+            srcY = rMon2 * height;
+            src = new Rect(srcX, srcY, srcX + width, srcY + height);
+            dst = new Rect(posX[1], posY, posX[1] + width, posY + height);
+            canvas.drawBitmap(bmp, src, dst, null);
+        }
 
-        srcY = rMon3 * height;
-        src = new Rect(srcX, srcY, srcX + width, srcY + height);
-        dst = new Rect(posX[2], posY, posX[2] + width, posY + height);
-        canvas.drawBitmap(bmp, src, dst, null);
+        if(alive[2]){
+            srcY = rMon3 * height;
+            src = new Rect(srcX, srcY, srcX + width, srcY + height);
+            dst = new Rect(posX[2], posY, posX[2] + width, posY + height);
+            canvas.drawBitmap(bmp, src, dst, null);
+        }
 
-        srcY = rMon4 * height;
-        src = new Rect(srcX, srcY, srcX + width, srcY + height);
-        dst = new Rect(posX[3], posY, posX[3] + width, posY + height);
-        canvas.drawBitmap(bmp, src, dst, null);
+        if(alive[3]){
+            srcY = rMon4 * height;
+            src = new Rect(srcX, srcY, srcX + width, srcY + height);
+            dst = new Rect(posX[3], posY, posX[3] + width, posY + height);
+            canvas.drawBitmap(bmp, src, dst, null);
+        }
+    }
+
+    public boolean checkCollision(Rect rect){
+        Rect monRect = new Rect();
+        for(int i=0; i<4; i++){
+            monRect.set(posX[i], posY, posX[i]+width, posY+height);
+            if(rect.intersect(monRect)){
+                posX[i] = canvasW + 150;
+                return true;
+            }
+        }
+        return false;
     }
 }

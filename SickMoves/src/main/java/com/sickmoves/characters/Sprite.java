@@ -10,7 +10,7 @@ import android.graphics.Rect;
  * Created by erz on 12/10/13.
  */
 public class Sprite {
-    private static final int BMP_ROWS = 5;
+    private static final int BMP_ROWS = 7;
     private static final int BMP_COLUMNS = 2;
     private int x = 0;
     private int y = 0;
@@ -58,5 +58,9 @@ public class Sprite {
 
     public void setRow(int i){
         row = i;
+    }
+
+    public Rect getBounds(){
+        return new Rect(x,y,x+width,y+height);
     }
 }

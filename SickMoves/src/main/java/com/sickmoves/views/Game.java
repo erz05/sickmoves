@@ -78,6 +78,11 @@ public class Game extends SurfaceView{
             canvas.drawColor(Color.BLACK);
             robot.onDraw(canvas);
             monsters.onDraw(canvas);
+
+            if(monsters.checkCollision(robot.getBounds())){
+                Log.v("DELETE_THIS", "Collision");
+
+            }
         }
     }
 
