@@ -39,29 +39,6 @@
             android:src="#FFFF00"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"/>
-
-        <!--<LinearLayout android:id="@+id/mapLayout"-->
-            <!--android:orientation="vertical"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="match_parent">-->
-
-        <!--</LinearLayout>-->
-
-        <!--<LinearLayout android:id="@+id/menuLayout"-->
-            <!--android:orientation="vertical"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="match_parent">-->
-
-            <!--<ImageView-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"/>-->
-
-            <!--<ImageView-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content" />-->
-
-        <!--</LinearLayout>-->
-
     </RelativeLayout>
 
     <!-- The navigation drawer -->

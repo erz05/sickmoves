@@ -10,6 +10,7 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 import com.sickmoves.R;
+import com.sickmoves.characters.Monsters;
 import com.sickmoves.characters.Sprite;
 import com.sickmoves.util.GameLoopThread;
 
@@ -25,6 +26,7 @@ public class Game extends SurfaceView{
     private GameLoopThread gameLoopThread;
     private List<Sprite> sprites = new ArrayList<Sprite>();
     private Sprite robot;
+    private Monsters monsters;
 
     public Game(Context context) {
         super(context);
@@ -49,6 +51,8 @@ public class Game extends SurfaceView{
             public void surfaceCreated(SurfaceHolder holder) {
                 if(!gameLoopThread.isRunning()){
                     robot = createSprite(R.drawable.sick);
+                    Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.monstars);
+                    monsters = new Monsters(getWidth(), getHeight(), bmp);
                     //createSprites();
                     gameLoopThread.setRunning(true);
                     gameLoopThread.start();
@@ -77,7 +81,7 @@ public class Game extends SurfaceView{
 
     private Sprite createSprite(int resouce) {
         Bitmap bmp = BitmapFactory.decodeResource(getResources(), resouce);
-        return new Sprite(this,bmp);
+        return new Sprite(getWidth(), getHeight(), bmp);
     }
 
     @Override
@@ -88,6 +92,7 @@ public class Game extends SurfaceView{
                 sprite.onDraw(canvas);
             }*/
             robot.onDraw(canvas);
+            monsters.onDraw(canvas);
         }
     }
 
