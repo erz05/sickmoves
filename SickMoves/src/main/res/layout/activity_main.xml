@@ -19,24 +19,24 @@
         <ImageView android:id="@+id/red"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:src="#FF0000"/>
+            android:src="@drawable/b1"/>
 
         <ImageView android:id="@+id/blue"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:src="#0000FF"
+            android:src="@drawable/b4"
             android:layout_alignParentRight="true"/>
 
         <ImageView android:id="@+id/green"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:src="#00FF00"
+            android:src="@drawable/b2"
             android:layout_alignParentBottom="true"/>
 
         <ImageView android:id="@+id/yellow"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:src="#FFFF00"
+            android:src="@drawable/b3"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"/>
     </RelativeLayout>

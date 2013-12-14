@@ -2,6 +2,8 @@ package com.sickmoves.characters;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.Rect;
 
 /**
@@ -16,6 +18,9 @@ public class Sprite {
     private int currentFrame = 0;
     private int width;
     private int height;
+    private int canvasW;
+    private int canvasH;
+    private Paint paint;
 
     private int row = 0;
 
@@ -23,9 +28,17 @@ public class Sprite {
         this.width = bmp.getWidth() / BMP_COLUMNS;
         this.height = bmp.getHeight() / BMP_ROWS;
         this.bmp = bmp;
+        this.canvasW = w;
+        this.canvasH = h;
 
         x = w/3 - width/2;
         y = h/2 - height/2;
+
+        paint = new Paint();
+        paint.setStrokeWidth(2);
+        paint.setAntiAlias(true);
+        paint.setColor(Color.WHITE);
+        paint.setStyle(Paint.Style.STROKE);
     }
 
     private void update() {
@@ -39,6 +52,8 @@ public class Sprite {
         Rect src = new Rect(srcX, srcY, srcX + width, srcY + height);
         Rect dst = new Rect(x, y, x + width, y + height);
         canvas.drawBitmap(bmp, src, dst, null);
+
+        canvas.drawLine(0, y+height, canvasW, y+height, paint);
     }
 
     public void setRow(int i){
