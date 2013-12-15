@@ -94,11 +94,9 @@ public class Monsters {
         }
     }
 
-    public boolean checkCollision(Rect rect){
-        Rect monRect = new Rect();
+    public boolean checkCollision(int x){
         for(int i=0; i<4; i++){
-            monRect.set(posX[i], posY, posX[i]+width, posY+height);
-            if(rect.intersect(monRect)){
+            if(posX[i]==x || posX[i]<x){
                 posX[i] = canvasW + 150;
                 return true;
             }

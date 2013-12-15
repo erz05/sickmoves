@@ -79,7 +79,7 @@ public class Game extends SurfaceView{
             robot.onDraw(canvas);
             monsters.onDraw(canvas);
 
-            if(monsters.checkCollision(robot.getBounds())){
+            if(monsters.checkCollision(robot.getFrontX())){
                 Log.v("DELETE_THIS", "Collision");
 
             }

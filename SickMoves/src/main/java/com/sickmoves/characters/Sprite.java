@@ -60,7 +60,7 @@ public class Sprite {
         row = i;
     }
 
-    public Rect getBounds(){
-        return new Rect(x,y,x+width,y+height);
+    public int getFrontX(){
+        return x+width;
     }
 }
