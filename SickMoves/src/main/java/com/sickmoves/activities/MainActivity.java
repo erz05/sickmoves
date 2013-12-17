@@ -10,16 +10,21 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.sickmoves.R;
 import com.sickmoves.listeners.MapListener;
 import com.sickmoves.listeners.MenuListener;
+import com.sickmoves.util.MathProblem;
 import com.sickmoves.views.Game;
 import com.sickmoves.views.Map;
 import com.sickmoves.views.Menu;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Random;
 
 public class MainActivity extends Activity implements MenuListener, MapListener {
 
@@ -29,6 +34,9 @@ public class MainActivity extends Activity implements MenuListener, MapListener 
     private Game game;
     private Menu menu;
     private Map map;
+
+    //private HashMap<String, Integer> questions;
+    private MathProblem mathProblem;
 
     @Override
     public void onSaveInstanceState(Bundle bundle){
@@ -44,16 +52,18 @@ public class MainActivity extends Activity implements MenuListener, MapListener 
         game = new Game(this);
         gameLayout.addView(game);
 
-        ImageView red = (ImageView) findViewById(R.id.red);
-        ImageView blue = (ImageView) findViewById(R.id.blue);
-        ImageView green = (ImageView) findViewById(R.id.green);
-        ImageView yellow = (ImageView) findViewById(R.id.yellow);
+        final TextView red = (TextView) findViewById(R.id.red);
+        final TextView blue = (TextView) findViewById(R.id.blue);
+        final TextView green = (TextView) findViewById(R.id.green);
+        final TextView yellow = (TextView) findViewById(R.id.yellow);
+        final TextView question = (TextView) findViewById(R.id.question);
 
         red.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.v("DELETE_THIS", "red Clicked");
                 game.changeRobot(1);
+                checkAnswer(red.getText().toString());
             }
         });
 
@@ -62,6 +72,7 @@ public class MainActivity extends Activity implements MenuListener, MapListener 
             public void onClick(View v) {
                 Log.v("DELETE_THIS", "blue Clicked");
                 game.changeRobot(2);
+                checkAnswer(blue.getText().toString());
             }
         });
 
@@ -70,6 +81,7 @@ public class MainActivity extends Activity implements MenuListener, MapListener 
             public void onClick(View v) {
                 Log.v("DELETE_THIS", "green Clicked");
                 game.changeRobot(3);
+                checkAnswer(green.getText().toString());
             }
         });
 
@@ -78,6 +90,7 @@ public class MainActivity extends Activity implements MenuListener, MapListener 
             public void onClick(View v) {
                 Log.v("DELETE_THIS", "yellow Clicked");
                 game.changeRobot(4);
+                checkAnswer(yellow.getText().toString());
             }
         });
 
@@ -85,6 +98,11 @@ public class MainActivity extends Activity implements MenuListener, MapListener 
         menu = new Menu(this);
         menu.setListener(this);
         menuLayout.addView(menu);
+
+        //questions = new HashMap<String, Integer>();
+        addQuestion();
+        question.setText(mathProblem.problem);
+        setAnswers();
 
         SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
     }
@@ -96,6 +114,12 @@ public class MainActivity extends Activity implements MenuListener, MapListener 
         SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
         SharedPreferences.Editor editor = settings.edit();
         editor.commit();
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+
     }
 
     @Override
@@ -151,5 +175,53 @@ public class MainActivity extends Activity implements MenuListener, MapListener 
             return null;
         }
         return json;
+    }
+
+    public void addQuestion(){
+        Random random = new Random();
+        int x = random.nextInt(20);
+        int y = random.nextInt(20);
+        int z = x * y;
+        String s = x + " * " + y + " = ?";
+        //questions.put(s, z);
+        mathProblem = new MathProblem(z, s);
+    }
+
+    public void setAnswers(){
+        TextView red = (TextView) findViewById(R.id.red);
+        TextView blue = (TextView) findViewById(R.id.blue);
+        TextView green = (TextView) findViewById(R.id.green);
+        TextView yellow = (TextView) findViewById(R.id.yellow);
+
+        Random r = new Random();
+        red.setText(""+r.nextInt(400));
+        blue.setText(""+r.nextInt(400));
+        green.setText(""+r.nextInt(400));
+        yellow.setText(""+r.nextInt(400));
+
+        int answer = r.nextInt(4);
+        switch (answer){
+            case 0:
+                red.setText(""+mathProblem.answer);
+                break;
+            case 1:
+                blue.setText(""+mathProblem.answer);
+                break;
+            case 2:
+                green.setText(""+mathProblem.answer);
+                break;
+            case 3:
+                yellow.setText(""+mathProblem.answer);
+                break;
+        }
+    }
+
+    public void checkAnswer(String str){
+        if(str.equals(mathProblem.answer+"")){
+            addQuestion();
+            final TextView question = (TextView) findViewById(R.id.question);
+            question.setText(mathProblem.problem);
+            setAnswers();
+        }
     }
 }
