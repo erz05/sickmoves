@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -39,7 +40,7 @@ public class MainActivity extends Activity implements MenuListener, MapListener 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        LinearLayout gameLayout = (LinearLayout) findViewById(R.id.gameLayout);
+        FrameLayout gameLayout = (FrameLayout) findViewById(R.id.gameLayout);
         game = new Game(this);
         gameLayout.addView(game);
 
@@ -80,10 +81,10 @@ public class MainActivity extends Activity implements MenuListener, MapListener 
             }
         });
 
-        RelativeLayout frame = (RelativeLayout) findViewById(R.id.content_frame);
+        FrameLayout menuLayout = (FrameLayout) findViewById(R.id.menuLayout);
         menu = new Menu(this);
         menu.setListener(this);
-        frame.addView(menu);
+        menuLayout.addView(menu);
 
         SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
     }
@@ -115,9 +116,9 @@ public class MainActivity extends Activity implements MenuListener, MapListener 
     public void onPlay() {
         map = new Map(this);
         map.setListener(this);
-        RelativeLayout frame = (RelativeLayout) findViewById(R.id.content_frame);
-        frame.removeView(menu);
-        frame.addView(map);
+        FrameLayout menuLayout = (FrameLayout) findViewById(R.id.menuLayout);
+        menuLayout.removeView(menu);
+        menuLayout.addView(map);
         menu = null;
         System.gc();
     }
@@ -126,8 +127,8 @@ public class MainActivity extends Activity implements MenuListener, MapListener 
     public void onLevelSelected() {
         if(game != null){
             game.start();
-            RelativeLayout frame = (RelativeLayout) findViewById(R.id.content_frame);
-            frame.removeView(map);
+            FrameLayout menuLayout = (FrameLayout) findViewById(R.id.menuLayout);
+            menuLayout.removeView(map);
             map = null;
             System.gc();
         }

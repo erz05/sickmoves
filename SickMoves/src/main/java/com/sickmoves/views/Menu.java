@@ -5,6 +5,7 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.sickmoves.R;
@@ -31,7 +32,7 @@ public class Menu extends LinearLayout {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.menu_layout, this, true);
 
-        Button play = (Button) findViewById(R.id.playButton);
+        ImageView play = (ImageView) findViewById(R.id.playButton);
         play.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {

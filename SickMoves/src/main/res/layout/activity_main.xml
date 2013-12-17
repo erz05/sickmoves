@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout android:id="@+id/gameLayout"
+    <FrameLayout android:id="@+id/gameLayout"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
@@ -41,5 +41,10 @@
         android:src="@drawable/b3"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"/>
+
+    <FrameLayout android:id="@+id/menuLayout"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 
 </RelativeLayout>
