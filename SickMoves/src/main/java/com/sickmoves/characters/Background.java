@@ -3,13 +3,12 @@ package com.sickmoves.characters;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Rect;
-import android.util.Log;
 
 /**
  * Created by erz on 12/17/13.
  */
 public class Background {
-    private static final int BMP_ROWS = 7;
+    private static final int BMP_ROWS = 3;
     private static final int BMP_COLUMNS = 1;
     private static final int MAX_SPEED = 5;
     private int[] posX;
@@ -25,7 +24,7 @@ public class Background {
     private Rect src;
     private Rect dst;
 
-    private int bg1 = 0, bg2 = 1, greenBack = 6, greenback2 = 6;
+    private int bg1 = 0, bg2 = 1, greenBack = 2, greenback2 = 2;
 
     public Background(int w, int h, Bitmap bmp) {
         this.width = bmp.getWidth() / BMP_COLUMNS;
@@ -58,14 +57,14 @@ public class Background {
         for(int i=0; i<2; i++){
             posX[i] -= 10;
             if(posX[i] < -width){
-                posX[i] = width;
+                posX[i] = width-10;
             }
         }
 
         for(int i=0; i<2; i++){
             greenX[i] -= 5;
             if(greenX[i] < -width){
-                greenX[i] = width;
+                greenX[i] = width-5;
             }
         }
 
