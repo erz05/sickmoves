@@ -21,6 +21,8 @@ public class Sprite {
     private int canvasW;
     private int canvasH;
     private Paint paint;
+    private Rect src;
+    private Rect dst;
 
     private int row = 0;
 
@@ -39,6 +41,9 @@ public class Sprite {
         paint.setAntiAlias(true);
         paint.setColor(Color.WHITE);
         paint.setStyle(Paint.Style.STROKE);
+
+        src = new Rect();
+        dst = new Rect();
     }
 
     private void update() {
@@ -49,8 +54,8 @@ public class Sprite {
         update();
         int srcX = currentFrame * width;
         int srcY = row * height;
-        Rect src = new Rect(srcX, srcY, srcX + width, srcY + height);
-        Rect dst = new Rect(x, y, x + width, y + height);
+        src.set(srcX, srcY, srcX + width, srcY + height);
+        dst.set(x, y, x + width, y + height);
         canvas.drawBitmap(bmp, src, dst, null);
 
         canvas.drawLine(0, y+height, canvasW, y+height, paint);

@@ -3,15 +3,17 @@ package com.sickmoves.characters;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Rect;
+import android.util.Log;
 
 /**
  * Created by erz on 12/17/13.
  */
 public class Background {
-    private static final int BMP_ROWS = 6;
+    private static final int BMP_ROWS = 7;
     private static final int BMP_COLUMNS = 1;
     private static final int MAX_SPEED = 5;
     private int[] posX;
+    private int[] greenX;
     private int posY = 0;
     private int[] speed;
     private Bitmap bmp;
@@ -20,8 +22,10 @@ public class Background {
     private int height;
     private int canvasW;
     private boolean[] alive;
+    private Rect src;
+    private Rect dst;
 
-    private int rMon1 = 0, rMon2 = 1, rMon3 = 2, rMon4 = 3;
+    private int bg1 = 0, bg2 = 1, greenBack = 6, greenback2 = 6;
 
     public Background(int w, int h, Bitmap bmp) {
         this.width = bmp.getWidth() / BMP_COLUMNS;
@@ -31,22 +35,40 @@ public class Background {
         this.canvasW = w;
         posY = h/2 - height/2;
         int x = 0;
-        posX = new int[4];
-        alive = new boolean[4];
-        for(int i=0; i<4; i++){
+        posX = new int[2];
+        alive = new boolean[2];
+        for(int i=0; i<2; i++){
             posX[i] = x;
             x += width;
             alive[i] = true;
         }
+
+        x = 0;
+        greenX = new int[2];
+        for(int i=0; i<2; i++){
+            greenX[i] = x;
+            x += width;
+        }
+
+        src = new Rect();
+        dst = new Rect();
     }
 
     private void update() {
-        for(int i=0; i<4; i++){
-            posX[i] -= 15;
-            if(posX[i] < 0){
-                posX[i] = canvasW + 150;
+        for(int i=0; i<2; i++){
+            posX[i] -= 10;
+            if(posX[i] < -width){
+                posX[i] = width;
             }
         }
+
+        for(int i=0; i<2; i++){
+            greenX[i] -= 5;
+            if(greenX[i] < -width){
+                greenX[i] = width;
+            }
+        }
+
         currentFrame = ++currentFrame % BMP_COLUMNS;
     }
 
@@ -54,44 +76,25 @@ public class Background {
         update();
         int srcX = currentFrame * width;
         int srcY;
-        Rect src;
-        Rect dst;
-        if(alive[0]){
-            srcY = rMon1 * height;
-            src = new Rect(srcX, srcY, srcX + width, srcY + height);
-            dst = new Rect(posX[0], posY, posX[0] + width, posY + height);
-            canvas.drawBitmap(bmp, src, dst, null);
-        }
 
-        if(alive[1]){
-            srcY = rMon2 * height;
-            src = new Rect(srcX, srcY, srcX + width, srcY + height);
-            dst = new Rect(posX[1], posY, posX[1] + width, posY + height);
-            canvas.drawBitmap(bmp, src, dst, null);
-        }
+        srcY = greenBack * height;
+        src.set(srcX, srcY, srcX + width, srcY + height);
+        dst.set(greenX[0], posY, greenX[0] + width, posY + height);
+        canvas.drawBitmap(bmp, src, dst, null);
 
-        if(alive[2]){
-            srcY = rMon3 * height;
-            src = new Rect(srcX, srcY, srcX + width, srcY + height);
-            dst = new Rect(posX[2], posY, posX[2] + width, posY + height);
-            canvas.drawBitmap(bmp, src, dst, null);
-        }
+        srcY = greenback2 * height;
+        src.set(srcX, srcY, srcX + width, srcY + height);
+        dst.set(greenX[1], posY, greenX[1] + width, posY + height);
+        canvas.drawBitmap(bmp, src, dst, null);
 
-        if(alive[3]){
-            srcY = rMon4 * height;
-            src = new Rect(srcX, srcY, srcX + width, srcY + height);
-            dst = new Rect(posX[3], posY, posX[3] + width, posY + height);
-            canvas.drawBitmap(bmp, src, dst, null);
-        }
-    }
+        srcY = bg1 * height;
+        src.set(srcX, srcY, srcX + width, srcY + height);
+        dst.set(posX[0], posY, posX[0] + width, posY + height);
+        canvas.drawBitmap(bmp, src, dst, null);
 
-    public boolean checkCollision(int x){
-        for(int i=0; i<4; i++){
-            if(posX[i]==x || posX[i]<x){
-                posX[i] = canvasW + 150;
-                return true;
-            }
-        }
-        return false;
+        srcY = bg2 * height;
+        src.set(srcX, srcY, srcX + width, srcY + height);
+        dst.set(posX[1], posY, posX[1] + width, posY + height);
+        canvas.drawBitmap(bmp, src, dst, null);
     }
 }
