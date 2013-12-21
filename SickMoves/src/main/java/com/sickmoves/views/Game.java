@@ -40,13 +40,15 @@ public class Game extends SurfaceView{
 
             @Override
             public void surfaceDestroyed(SurfaceHolder holder) {
-                boolean retry = true;
-                gameLoopThread.setRunning(false);
-                while (retry) {
-                    try {
-                        gameLoopThread.join();
-                        retry = false;
-                    } catch (InterruptedException e) {
+                if(gameLoopThread != null){
+                    boolean retry = true;
+                    gameLoopThread.setRunning(false);
+                    while (retry) {
+                        try {
+                            gameLoopThread.join();
+                            retry = false;
+                        } catch (InterruptedException e) {
+                        }
                     }
                 }
             }
@@ -90,6 +92,9 @@ public class Game extends SurfaceView{
     }
 
     public void start(){
+        if(gameLoopThread == null){
+            gameLoopThread = new GameLoopThread(this);
+        }
         if(gameLoopThread != null && !gameLoopThread.isRunning()){
             gameLoopThread.setRunning(true);
             gameLoopThread.start();
@@ -98,14 +103,27 @@ public class Game extends SurfaceView{
 
 
     public void resume(){
+        if(gameLoopThread == null){
+            gameLoopThread = new GameLoopThread(this);
+        }
         if(gameLoopThread != null && !gameLoopThread.isRunning()){
             gameLoopThread.setRunning(true);
+            gameLoopThread.start();
         }
     }
 
     public void pause(){
         if(gameLoopThread != null && gameLoopThread.isRunning()){
             gameLoopThread.setRunning(false);
+            boolean retry = true;
+            while (retry) {
+                try {
+                    gameLoopThread.join();
+                    retry = false;
+                } catch (InterruptedException e) {
+                }
+            }
+            gameLoopThread = null;
         }
     }
 }
