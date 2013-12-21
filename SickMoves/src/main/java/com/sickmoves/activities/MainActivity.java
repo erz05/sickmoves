@@ -5,25 +5,20 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.sickmoves.R;
 import com.sickmoves.listeners.MapListener;
 import com.sickmoves.listeners.MenuListener;
 import com.sickmoves.util.MathProblem;
+import com.sickmoves.views.BackgroundView;
 import com.sickmoves.views.Game;
 import com.sickmoves.views.Map;
 import com.sickmoves.views.Menu;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Random;
 
 public class MainActivity extends Activity implements MenuListener, MapListener {
@@ -34,6 +29,7 @@ public class MainActivity extends Activity implements MenuListener, MapListener 
     private Game game;
     private Menu menu;
     private Map map;
+    private BackgroundView background;
 
     //private HashMap<String, Integer> questions;
     private MathProblem mathProblem;
@@ -49,8 +45,15 @@ public class MainActivity extends Activity implements MenuListener, MapListener 
         setContentView(R.layout.activity_main);
 
         FrameLayout gameLayout = (FrameLayout) findViewById(R.id.gameLayout);
+
         game = new Game(this);
         gameLayout.addView(game);
+
+        background = new BackgroundView(this);
+        gameLayout.addView(background);
+
+        //game = new Game(this);
+        //gameLayout.addView(game);
 
         final TextView red = (TextView) findViewById(R.id.red);
         final TextView blue = (TextView) findViewById(R.id.blue);
@@ -128,6 +131,7 @@ public class MainActivity extends Activity implements MenuListener, MapListener 
         game = null;
         menu = null;
         map = null;
+        background = null;
     }
 
     @Override

@@ -5,6 +5,8 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.PixelFormat;
+import android.graphics.PorterDuff;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -29,6 +31,9 @@ public class Game extends SurfaceView{
 
     public Game(Context context) {
         super(context);
+        setBackgroundColor(Color.TRANSPARENT);
+        setZOrderOnTop(true);
+        getHolder().setFormat(PixelFormat.TRANSPARENT);
         gameLoopThread = new GameLoopThread(this);
         holder = getHolder();
         holder.addCallback(new SurfaceHolder.Callback() {
@@ -51,13 +56,6 @@ public class Game extends SurfaceView{
                 robot = createSprite(R.drawable.sick);
                 Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.monstars);
                 monsters = new Monsters(getWidth(), getHeight(), bmp);
-                /*if(!gameLoopThread.isRunning()){
-                    robot = createSprite(R.drawable.sick);
-                    Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.monstars);
-                    monsters = new Monsters(getWidth(), getHeight(), bmp);
-                    gameLoopThread.setRunning(true);
-                    gameLoopThread.start();
-                }*/
             }
 
             @Override
@@ -75,13 +73,14 @@ public class Game extends SurfaceView{
     @Override
     public void onDraw(Canvas canvas) {
         if(canvas != null){
-            canvas.drawColor(Color.BLACK);
-            robot.onDraw(canvas);
-            monsters.onDraw(canvas);
+            canvas.drawColor(0, PorterDuff.Mode.CLEAR);
+            if(robot != null && monsters != null){
+                robot.onDraw(canvas);
+                monsters.onDraw(canvas);
 
-            if(monsters.checkCollision(robot.getFrontX())){
-                Log.v("DELETE_THIS", "Collision");
-
+                if(monsters.checkCollision(robot.getFrontX())){
+                    Log.v("DELETE_THIS", "Collision");
+                }
             }
         }
     }
@@ -92,9 +91,6 @@ public class Game extends SurfaceView{
 
     public void start(){
         if(gameLoopThread != null && !gameLoopThread.isRunning()){
-            //robot = createSprite(R.drawable.sick);
-            //Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.monstars);
-            //monsters = new Monsters(getWidth(), getHeight(), bmp);
             gameLoopThread.setRunning(true);
             gameLoopThread.start();
         }
