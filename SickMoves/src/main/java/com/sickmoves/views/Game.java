@@ -95,4 +95,17 @@ public class Game extends SurfaceView{
             gameLoopThread.start();
         }
     }
+
+
+    public void resume(){
+        if(gameLoopThread != null && !gameLoopThread.isRunning()){
+            gameLoopThread.setRunning(true);
+        }
+    }
+
+    public void pause(){
+        if(gameLoopThread != null && gameLoopThread.isRunning()){
+            gameLoopThread.setRunning(false);
+        }
+    }
 }

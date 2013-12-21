@@ -5,7 +5,9 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.sickmoves.R;
@@ -30,6 +32,7 @@ public class MainActivity extends Activity implements MenuListener, MapListener 
     private Menu menu;
     private Map map;
     private BackgroundView background;
+    private boolean paused = false;
 
     //private HashMap<String, Integer> questions;
     private MathProblem mathProblem;
@@ -107,6 +110,26 @@ public class MainActivity extends Activity implements MenuListener, MapListener 
         question.setText(mathProblem.problem);
         setAnswers();
 
+        final LinearLayout pauseMenu = (LinearLayout) findViewById(R.id.pauseLayout);
+        final Button quitYes = (Button) findViewById(R.id.quitYes);
+        final Button quitNo = (Button) findViewById(R.id.quitNo);
+        pauseMenu.setVisibility(View.GONE);
+        quitYes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                paused = true;
+                onBackPressed();
+            }
+        });
+        quitNo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                paused = false;
+                pauseMenu.setVisibility(View.GONE);
+                game.resume();
+            }
+        });
+
         SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
     }
 
@@ -136,7 +159,14 @@ public class MainActivity extends Activity implements MenuListener, MapListener 
 
     @Override
     public void onBackPressed(){
-        super.onBackPressed();
+        if(paused){
+            super.onBackPressed();
+        }else {
+            game.pause();
+            LinearLayout pauseMenu = (LinearLayout) findViewById(R.id.pauseLayout);
+            pauseMenu.setVisibility(View.VISIBLE);
+            paused = true;
+        }
         //todo pause/are you sure you want to quit
     }
 

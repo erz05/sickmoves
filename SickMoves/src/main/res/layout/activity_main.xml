@@ -74,4 +74,27 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
+    <LinearLayout android:id="@+id/pauseLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="#444444"
+        android:padding="24dp"
+        android:layout_centerInParent="true"
+        android:visibility="gone">
+
+        <Button android:id="@+id/quitYes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="yes"
+            android:padding="24dp"/>
+
+        <Button android:id="@+id/quitNo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="No"
+            android:padding="24dp"/>
+
+    </LinearLayout>
+
 </RelativeLayout>
