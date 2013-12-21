@@ -16,6 +16,7 @@ import com.sickmoves.listeners.MenuListener;
 import com.sickmoves.util.MathProblem;
 import com.sickmoves.views.BackgroundView;
 import com.sickmoves.views.Game;
+import com.sickmoves.views.JoyStick;
 import com.sickmoves.views.Map;
 import com.sickmoves.views.Menu;
 
@@ -33,9 +34,6 @@ public class MainActivity extends Activity implements MenuListener, MapListener 
     private Map map;
     private BackgroundView background;
     private boolean paused = false;
-
-    //private HashMap<String, Integer> questions;
-    private MathProblem mathProblem;
 
     @Override
     public void onSaveInstanceState(Bundle bundle){
@@ -55,60 +53,10 @@ public class MainActivity extends Activity implements MenuListener, MapListener 
         background = new BackgroundView(this);
         gameLayout.addView(background);
 
-        //game = new Game(this);
-        //gameLayout.addView(game);
-
-        final TextView red = (TextView) findViewById(R.id.red);
-        final TextView blue = (TextView) findViewById(R.id.blue);
-        final TextView green = (TextView) findViewById(R.id.green);
-        final TextView yellow = (TextView) findViewById(R.id.yellow);
-        final TextView question = (TextView) findViewById(R.id.question);
-
-        red.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.v("DELETE_THIS", "red Clicked");
-                game.changeRobot(1);
-                checkAnswer(red.getText().toString());
-            }
-        });
-
-        blue.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.v("DELETE_THIS", "blue Clicked");
-                game.changeRobot(2);
-                checkAnswer(blue.getText().toString());
-            }
-        });
-
-        green.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.v("DELETE_THIS", "green Clicked");
-                game.changeRobot(3);
-                checkAnswer(green.getText().toString());
-            }
-        });
-
-        yellow.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.v("DELETE_THIS", "yellow Clicked");
-                game.changeRobot(4);
-                checkAnswer(yellow.getText().toString());
-            }
-        });
-
         FrameLayout menuLayout = (FrameLayout) findViewById(R.id.menuLayout);
         menu = new Menu(this);
         menu.setListener(this);
         menuLayout.addView(menu);
-
-        //questions = new HashMap<String, Integer>();
-        addQuestion();
-        question.setText(mathProblem.problem);
-        setAnswers();
 
         final LinearLayout pauseMenu = (LinearLayout) findViewById(R.id.pauseLayout);
         final Button quitYes = (Button) findViewById(R.id.quitYes);
@@ -129,6 +77,14 @@ public class MainActivity extends Activity implements MenuListener, MapListener 
                 game.resume();
             }
         });
+
+        JoyStick joyStick = (JoyStick) findViewById(R.id.joyStick);
+        joyStick.setOnJoystickMoveListener(new JoyStick.OnJoystickMoveListener() {
+            @Override
+            public void onValueChanged(int angle, int power, int direction) {
+                game.moveRobot(angle, power);
+            }
+        }, JoyStick.DEFAULT_LOOP_INTERVAL);
 
         SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
     }
@@ -189,73 +145,6 @@ public class MainActivity extends Activity implements MenuListener, MapListener 
             menuLayout.removeView(map);
             map = null;
             System.gc();
-        }
-    }
-
-    public String loadJSONFromAsset(String filename) {
-        String json = null;
-        try {
-
-            InputStream is = getAssets().open(filename);
-            int size = is.available();
-            byte[] buffer = new byte[size];
-            is.read(buffer);
-            is.close();
-            json = new String(buffer, "UTF-8");
-
-
-        } catch (IOException ex) {
-            ex.printStackTrace();
-            return null;
-        }
-        return json;
-    }
-
-    public void addQuestion(){
-        Random random = new Random();
-        int x = random.nextInt(20);
-        int y = random.nextInt(20);
-        int z = x * y;
-        String s = x + " * " + y + " = ?";
-        //questions.put(s, z);
-        mathProblem = new MathProblem(z, s);
-    }
-
-    public void setAnswers(){
-        TextView red = (TextView) findViewById(R.id.red);
-        TextView blue = (TextView) findViewById(R.id.blue);
-        TextView green = (TextView) findViewById(R.id.green);
-        TextView yellow = (TextView) findViewById(R.id.yellow);
-
-        Random r = new Random();
-        red.setText(""+r.nextInt(400));
-        blue.setText(""+r.nextInt(400));
-        green.setText(""+r.nextInt(400));
-        yellow.setText(""+r.nextInt(400));
-
-        int answer = r.nextInt(4);
-        switch (answer){
-            case 0:
-                red.setText(""+mathProblem.answer);
-                break;
-            case 1:
-                blue.setText(""+mathProblem.answer);
-                break;
-            case 2:
-                green.setText(""+mathProblem.answer);
-                break;
-            case 3:
-                yellow.setText(""+mathProblem.answer);
-                break;
-        }
-    }
-
-    public void checkAnswer(String str){
-        if(str.equals(mathProblem.answer+"")){
-            addQuestion();
-            final TextView question = (TextView) findViewById(R.id.question);
-            question.setText(mathProblem.problem);
-            setAnswers();
         }
     }
 }

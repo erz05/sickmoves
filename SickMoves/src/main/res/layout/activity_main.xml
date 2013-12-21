@@ -18,56 +18,10 @@
         android:layout_centerHorizontal="true"
         android:padding="24dp"/>
 
-
-    <TextView android:id="@+id/question"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="15 * 23 = ?"
-        android:textSize="32sp"
-        android:textColor="@android:color/white"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:padding="24dp"/>
-
-    <TextView android:id="@+id/red"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="233"
-        android:gravity="center"
-        android:textSize="24sp"
-        android:textColor="@android:color/white"
-        android:background="@drawable/b1"/>
-
-    <TextView android:id="@+id/blue"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/b4"
-        android:text="233"
-        android:gravity="center"
-        android:textSize="24sp"
-        android:textColor="@android:color/white"
-        android:layout_alignParentRight="true"/>
-
-    <TextView android:id="@+id/green"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/b2"
-        android:text="233"
-        android:gravity="center"
-        android:textSize="24sp"
-        android:textColor="@android:color/white"
+    <com.sickmoves.views.JoyStick android:id="@+id/joyStick"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
         android:layout_alignParentBottom="true"/>
-
-    <TextView android:id="@+id/yellow"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/b3"
-        android:text="233"
-        android:gravity="center"
-        android:textSize="24sp"
-        android:textColor="@android:color/black"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"/>
 
     <FrameLayout android:id="@+id/menuLayout"
         android:orientation="vertical"

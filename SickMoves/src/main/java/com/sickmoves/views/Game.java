@@ -126,4 +126,10 @@ public class Game extends SurfaceView{
             gameLoopThread = null;
         }
     }
+
+    public void moveRobot(int angle, int power) {
+        if(robot != null){
+            robot.move(angle, power);
+        }
+    }
 }

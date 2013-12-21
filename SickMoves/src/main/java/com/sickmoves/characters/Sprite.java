@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.util.Log;
 
 /**
  * Created by erz on 12/10/13.
@@ -57,8 +58,6 @@ public class Sprite {
         src.set(srcX, srcY, srcX + width, srcY + height);
         dst.set(x, y, x + width, y + height);
         canvas.drawBitmap(bmp, src, dst, null);
-
-        canvas.drawLine(0, y+height, canvasW, y+height, paint);
     }
 
     public void setRow(int i){
@@ -67,5 +66,23 @@ public class Sprite {
 
     public int getFrontX(){
         return x+width;
+    }
+
+    public void move(int angle, int power) {
+        x += (int)(Math.sin(Math.toRadians(angle))*power);
+        y -= (int)(Math.cos(Math.toRadians(angle))*power);
+
+        if(x<0){
+            x = 0;
+        }
+        if(x>canvasW-width){
+            x=canvasW-width;
+        }
+        if(y<0){
+            y=0;
+        }
+        if(y>canvasH-height){
+            y=canvasH-height;
+        }
     }
 }
