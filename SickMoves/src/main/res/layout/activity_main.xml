@@ -18,10 +18,16 @@
         android:layout_centerHorizontal="true"
         android:padding="24dp"/>
 
-    <com.sickmoves.views.JoyStick android:id="@+id/joyStick"
+    <com.sickmoves.views.JoyStick android:id="@+id/joyStickLeft"
         android:layout_width="200dp"
         android:layout_height="200dp"
         android:layout_alignParentBottom="true"/>
+
+    <com.sickmoves.views.JoyStick android:id="@+id/joyStickRight"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"/>
 
     <FrameLayout android:id="@+id/menuLayout"
         android:orientation="vertical"

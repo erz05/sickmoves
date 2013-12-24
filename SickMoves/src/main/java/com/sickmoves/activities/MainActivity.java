@@ -78,11 +78,46 @@ public class MainActivity extends Activity implements MenuListener, MapListener 
             }
         });
 
-        JoyStick joyStick = (JoyStick) findViewById(R.id.joyStick);
-        joyStick.setOnJoystickMoveListener(new JoyStick.OnJoystickMoveListener() {
+        JoyStick joyStickLeft = (JoyStick) findViewById(R.id.joyStickLeft);
+        joyStickLeft.setOnJoystickMoveListener(new JoyStick.OnJoystickMoveListener() {
             @Override
             public void onValueChanged(int angle, int power, int direction) {
                 game.moveRobot(angle, power);
+            }
+        }, JoyStick.DEFAULT_LOOP_INTERVAL);
+
+        JoyStick joyStickRight = (JoyStick) findViewById(R.id.joyStickRight);
+        joyStickRight.setOnJoystickMoveListener(new JoyStick.OnJoystickMoveListener() {
+            @Override
+            public void onValueChanged(int angle, int power, int direction) {
+                switch (direction) {
+                    case JoyStick.FRONT:
+                        game.changeRobot(6);
+                        break;
+                    case JoyStick.FRONT_RIGHT:
+                        game.changeRobot(2);
+                        break;
+                    case JoyStick.RIGHT:
+                        game.changeRobot(1);
+                        break;
+                    case JoyStick.RIGHT_BOTTOM:
+                        game.changeRobot(3);
+                        break;
+                    case JoyStick.BOTTOM:
+                        game.changeRobot(2);
+                        break;
+                    case JoyStick.BOTTOM_LEFT:
+                        game.changeRobot(4);
+                        break;
+                    case JoyStick.LEFT:
+                        game.changeRobot(3);
+                        break;
+                    case JoyStick.LEFT_FRONT:
+                        game.changeRobot(5);
+                        break;
+                    default:
+                        game.changeRobot(0);
+                }
             }
         }, JoyStick.DEFAULT_LOOP_INTERVAL);
 
