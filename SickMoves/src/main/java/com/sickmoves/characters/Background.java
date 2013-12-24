@@ -8,7 +8,7 @@ import android.graphics.Rect;
  * Created by erz on 12/17/13.
  */
 public class Background {
-    private static final int BMP_ROWS = 3;
+    private static final int BMP_ROWS = 4;
     private static final int BMP_COLUMNS = 1;
     private static final int MAX_SPEED = 5;
     private int[] posX;
@@ -24,7 +24,10 @@ public class Background {
     private Rect src;
     private Rect dst;
 
-    private int bg1 = 0, bg2 = 1, greenBack = 2, greenback2 = 2;
+    private int streetY;
+    private int[] streetX;
+
+    private int bg1 = 0, bg2 = 1, greenBack = 2, greenback2 = 2, street1 = 3, street2 = 3;
 
     public Background(int w, int h, Bitmap bmp) {
         this.width = bmp.getWidth() / BMP_COLUMNS;
@@ -32,7 +35,8 @@ public class Background {
         this.bmp = bmp;
 
         this.canvasW = w;
-        posY = h/2 - height/2;
+        posY = 0;
+        streetY = h/2;
         int x = 0;
         posX = new int[2];
         alive = new boolean[2];
@@ -46,6 +50,13 @@ public class Background {
         greenX = new int[2];
         for(int i=0; i<2; i++){
             greenX[i] = x;
+            x += width;
+        }
+
+        x = 0;
+        streetX = new int[2];
+        for(int i=0; i<2; i++){
+            streetX[i] = x;
             x += width;
         }
 
@@ -65,6 +76,13 @@ public class Background {
             greenX[i] -= 5;
             if(greenX[i] < -width){
                 greenX[i] = width-5;
+            }
+        }
+
+        for(int i=0; i<2; i++){
+            streetX[i] -= 15;
+            if(streetX[i] < -width){
+                streetX[i] = width-15;
             }
         }
 
@@ -94,6 +112,16 @@ public class Background {
         srcY = bg2 * height;
         src.set(srcX, srcY, srcX + width, srcY + height);
         dst.set(posX[1], posY, posX[1] + width, posY + height);
+        canvas.drawBitmap(bmp, src, dst, null);
+
+        srcY = street1 * height;
+        src.set(srcX, srcY, srcX + width, srcY + height);
+        dst.set(streetX[0], streetY, streetX[0] + width, streetY + height);
+        canvas.drawBitmap(bmp, src, dst, null);
+
+        srcY = street2 * height;
+        src.set(srcX, srcY, srcX + width, srcY + height);
+        dst.set(streetX[1], streetY, streetX[1] + width, streetY + height);
         canvas.drawBitmap(bmp, src, dst, null);
     }
 }

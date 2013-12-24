@@ -64,8 +64,8 @@ public class Sprite {
         row = i;
     }
 
-    public int getFrontX(){
-        return x+width;
+    public Rect getBounds(){
+        return dst;
     }
 
     public void move(int angle, int power) {
