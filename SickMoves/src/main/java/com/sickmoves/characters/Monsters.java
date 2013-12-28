@@ -3,6 +3,7 @@ package com.sickmoves.characters;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Rect;
+import android.util.Log;
 
 /**
  * Created by erz on 12/13/13.
@@ -10,7 +11,7 @@ import android.graphics.Rect;
 public class Monsters {
     private static final int BMP_ROWS = 4;
     private static final int BMP_COLUMNS = 2;
-    private static final int MAX_SPEED = 5;
+    private int MAX_SPEED;
     private int[] posX;
     private int posY = 0;
     private int[] speed;
@@ -31,13 +32,15 @@ public class Monsters {
         this.bmp = bmp;
 
         this.canvasW = w;
+
+        MAX_SPEED = canvasW/40;
         posY = h/2 - height/2;
         int x = w;
         posX = new int[4];
         alive = new boolean[4];
         for(int i=0; i<4; i++){
             posX[i] = x;
-            x += 150;
+            x += 500;
             alive[i] = true;
         }
 
@@ -47,9 +50,9 @@ public class Monsters {
 
     private void update() {
         for(int i=0; i<4; i++){
-            posX[i] -= 15;
+            posX[i] -= MAX_SPEED;
             if(posX[i] < 0){
-                posX[i] = canvasW + 150;
+                posX[i] = canvasW + 500;
             }
         }
 
@@ -89,10 +92,11 @@ public class Monsters {
         }
     }
 
-    public boolean checkCollision(int x){
+    public boolean checkCollision(Rect r){
         for(int i=0; i<4; i++){
-            if(posX[i]==x || posX[i]<x){
-                posX[i] = canvasW + 150;
+            dst.set(posX[i], posY, posX[i]+width, posY+height);
+            if(dst.intersect(r)){
+                posX[i] = canvasW + 300;
                 return true;
             }
         }

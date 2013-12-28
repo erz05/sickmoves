@@ -5,13 +5,14 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.util.Log;
 
 /**
  * Created by erz on 12/10/13.
  */
 public class Sprite {
-    private static final int BMP_ROWS = 7;
-    private static final int BMP_COLUMNS = 2;
+    private static final int BMP_ROWS = 2;
+    private static final int BMP_COLUMNS = 4;
     private int x = 0;
     private int y = 0;
     private Bitmap bmp;
@@ -24,6 +25,12 @@ public class Sprite {
     private Rect src;
     private Rect dst;
 
+    //constant variables
+    private double gravity = 9.8;
+
+    private boolean goingup = false;
+    private int groundLevel;
+
     private int row = 0;
 
     public Sprite(int w, int h, Bitmap bmp) {
@@ -34,7 +41,9 @@ public class Sprite {
         this.canvasH = h;
 
         x = w/3 - width/2;
-        y = h/2 - height/2;
+        groundLevel = h/2 - height/2;
+        Log.v("DELETE_THIS", "groundLevel " + groundLevel);
+        y = groundLevel;
 
         paint = new Paint();
         paint.setStrokeWidth(2);
@@ -48,6 +57,19 @@ public class Sprite {
 
     private void update() {
         currentFrame = ++currentFrame % BMP_COLUMNS;
+
+        if(goingup){
+            y -= 45;
+            if(y<height/2){
+                goingup = false;
+            }
+        }else {
+            y += 45;
+            if(y > groundLevel){
+                row = 0;
+                y = groundLevel;
+            }
+        }
     }
 
     public void onDraw(Canvas canvas) {
@@ -57,15 +79,18 @@ public class Sprite {
         src.set(srcX, srcY, srcX + width, srcY + height);
         dst.set(x, y, x + width, y + height);
         canvas.drawBitmap(bmp, src, dst, null);
-
-        canvas.drawLine(0, y+height, canvasW, y+height, paint);
     }
 
     public void setRow(int i){
         row = i;
     }
 
-    public int getFrontX(){
-        return x+width;
+    public Rect getRect(){
+        return new Rect(x, y, x+width, y+height);
+    }
+
+    public void jump(){
+        row = 1;
+        goingup = true;
     }
 }

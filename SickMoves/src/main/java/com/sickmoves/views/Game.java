@@ -55,7 +55,7 @@ public class Game extends SurfaceView{
 
             @Override
             public void surfaceCreated(SurfaceHolder holder) {
-                robot = createSprite(R.drawable.sick);
+                robot = createSprite(R.drawable.running);
                 Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.monstars);
                 monsters = new Monsters(getWidth(), getHeight(), bmp);
             }
@@ -80,8 +80,8 @@ public class Game extends SurfaceView{
                 robot.onDraw(canvas);
                 monsters.onDraw(canvas);
 
-                if(monsters.checkCollision(robot.getFrontX())){
-                    Log.v("DELETE_THIS", "Collision");
+                if(monsters.checkCollision(robot.getRect())){
+                    //Log.v("DELETE_THIS", "Collision");
                 }
             }
         }
@@ -125,5 +125,9 @@ public class Game extends SurfaceView{
             }
             gameLoopThread = null;
         }
+    }
+
+    public void robotJump(){
+        robot.jump();
     }
 }

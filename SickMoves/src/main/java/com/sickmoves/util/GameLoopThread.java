@@ -8,7 +8,7 @@ import com.sickmoves.views.Game;
  * Created by erz on 12/10/13.
  */
 public class GameLoopThread extends Thread {
-    static final long FPS = 8;
+    static final long FPS = 10;
     private Game game;
     private boolean running = false;
 

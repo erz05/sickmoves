@@ -32,7 +32,7 @@ public class Background {
         this.bmp = bmp;
 
         this.canvasW = w;
-        posY = h/2 - height/2;
+        posY = h-(height*2);
         int x = 0;
         posX = new int[2];
         alive = new boolean[2];
@@ -55,9 +55,9 @@ public class Background {
 
     private void update() {
         for(int i=0; i<2; i++){
-            posX[i] -= 10;
+            posX[i] -= 15;
             if(posX[i] < -width){
-                posX[i] = width-10;
+                posX[i] = width-15;
             }
         }
 
